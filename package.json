@@ -1,0 +1,32 @@
+{
+	"name": "laravel-mix-sass-resources-loader",
+	"version": "1.0.0",
+	"description": "Plugin for larvel-mix to allow injecting sass-resource files via the sass-resources-loader",
+	"main": "dist/plugin.js",
+	"scripts": {
+		"build": "npm run prod && npm run prod-min",
+		"prod": "babel -o dist/plugin.js -s true --no-comments src/plugin.js",
+		"prod-min": "babel --minified -o dist/plugin.min.js -s true --no-comments src/plugin.js"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/lmeysel/laravel-mix-sass-resources-loader.git"
+	},
+	"babel": {
+		"presets": [
+			"env"
+		]
+	},
+	"keywords": [
+		"webpack",
+		"sass",
+		"laravel-mix",
+		"resources"
+	],
+	"author": "Ludwig Meysel",
+	"license": "MIT",
+	"bugs": {
+		"url": "https://github.com/lmeysel/laravel-mix-sass-resources-loader/issues"
+	},
+	"homepage": "https://github.com/lmeysel/laravel-mix-sass-resources-loader#readme"
+}
