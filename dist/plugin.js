@@ -5,6 +5,7 @@ var _createClass = function () { function defineProperties(target, props) { for 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 var mix = require('laravel-mix');
+var path = require('path');
 
 var ext = new (function () {
 	function _class() {
@@ -23,7 +24,9 @@ var ext = new (function () {
 			}
 
 			args.forEach(function (a) {
-				return a instanceof Array ? _this.resources.push.apply(_this.resources, a) : _this.resources.push(a);
+				return a instanceof Array ? _this.resources.push.apply(_this.resources, a.map(function (r) {
+					return path.resolve(__dirname, '../../../' + r);
+				})) : _this.resources.push(path.resolve(__dirname, '../../../' + a));
 			});
 		}
 	}, {

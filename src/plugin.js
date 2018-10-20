@@ -1,9 +1,12 @@
 const mix = require('laravel-mix');
+const path = require('path');
 
 const ext = new class {
 	register(...args) {
 		if (!this.resources) this.resources = [];
-		args.forEach(a => a instanceof Array ? this.resources.push.apply(this.resources, a) : this.resources.push(a));
+		args.forEach(a => a instanceof Array ?
+			this.resources.push.apply(this.resources, a.map(r => path.resolve(__dirname, '../../../' + r))) :
+			this.resources.push(path.resolve(__dirname, '../../../' + a)));
 	}
 	dependencies() { return ['sass-resources-loader'] }
 
