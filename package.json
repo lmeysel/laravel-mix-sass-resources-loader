@@ -4,6 +4,7 @@
 	"description": "Plugin for larvel-mix to allow injecting sass-resource files via the sass-resources-loader",
 	"main": "dist/plugin.js",
 	"scripts": {
+		"watch": "babel -w -o dist/plugin.js -s true --no-comments src/plugin.js",
 		"build": "npm run prod && npm run prod-min",
 		"prod": "babel -o dist/plugin.js -s true --no-comments src/plugin.js",
 		"prod-min": "babel --minified -o dist/plugin.min.js -s true --no-comments src/plugin.js"
@@ -14,7 +15,7 @@
 	},
 	"babel": {
 		"presets": [
-			"env"
+			"@babel/env"
 		]
 	},
 	"keywords": [
@@ -28,5 +29,14 @@
 	"bugs": {
 		"url": "https://github.com/lmeysel/laravel-mix-sass-resources-loader/issues"
 	},
-	"homepage": "https://github.com/lmeysel/laravel-mix-sass-resources-loader#readme"
+	"homepage": "https://github.com/lmeysel/laravel-mix-sass-resources-loader#readme",
+	"devDependencies": {
+		"@babel/preset-env": "^7.3.1",
+		"laravel-mix": "^4.0.14",
+		"resolve-url-loader": "^2.3.1",
+		"sass": "^1.16.1",
+		"sass-loader": "^7.1.0",
+		"sass-resources-loader": "^2.0.0",
+		"vue-template-compiler": "^2.5.22"
+	}
 }
