@@ -23,7 +23,7 @@ const ext = new class {
 			|| (typeof (rule.test) === 'string' && /\.s[ac]ss$/.test(rule.test)));
 
 		const ldr = { loader: 'sass-resources-loader', options: { resources: this.resources } };
-		if (mix4)
+		if (mix4) {
 			rules.forEach(rule => {
 				if (rule.loaders) {
 					rule.use = rule.loaders;
@@ -31,6 +31,7 @@ const ext = new class {
 				}
 				rule.use.push(ldr)
 			});
+		}
 		else {
 			rules.forEach(rule => {
 				if (rule.loaders) {

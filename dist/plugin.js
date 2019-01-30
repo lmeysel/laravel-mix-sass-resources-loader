@@ -58,14 +58,17 @@ var ext = new (function () {
           resources: this.resources
         }
       };
-      if (mix4) rules.forEach(function (rule) {
-        if (rule.loaders) {
-          rule.use = rule.loaders;
-          delete rule.loaders;
-        }
 
-        rule.use.push(ldr);
-      });else {
+      if (mix4) {
+        rules.forEach(function (rule) {
+          if (rule.loaders) {
+            rule.use = rule.loaders;
+            delete rule.loaders;
+          }
+
+          rule.use.push(ldr);
+        });
+      } else {
         rules.forEach(function (rule) {
           if (rule.loaders) {
             rule.use = rule.loaders.map(function (loader) {
