@@ -50,7 +50,7 @@ var ext = new (function () {
     key: "webpackConfig",
     value: function webpackConfig(config) {
       var rules = config.module.rules.filter(function (rule) {
-        return rule.test instanceof RegExp && rule.test.test('asdf.scss') || typeof rule.test === 'string' && /\.s[ac]ss$/.test(rule.test);
+        return rule.test instanceof RegExp && (rule.test.test('asdf.scss') || rule.test.test('asdf.sass')) || typeof rule.test === 'string' && /\.s[ac]ss$/.test(rule.test);
       });
       var ldr = {
         loader: 'sass-resources-loader',
