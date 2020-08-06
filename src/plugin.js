@@ -19,7 +19,7 @@ const ext = new class {
 
 	webpackConfig(config) {
 		const rules = config.module.rules.filter(rule =>
-			((rule.test instanceof RegExp) && rule.test.test('asdf.scss'))
+			((rule.test instanceof RegExp) && (rule.test.test('asdf.scss') || rule.test.test('asdf.sass')))
 			|| (typeof (rule.test) === 'string' && /\.s[ac]ss$/.test(rule.test)));
 
 		const ldr = { loader: 'sass-resources-loader', options: { resources: this.resources } };
