@@ -1,24 +1,36 @@
 "use strict";
 
+function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
 
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
 
-var mix = require('laravel-mix');
+var mix = require('laravel-mix'),
+    path = require('path'),
+    fs = require('fs');
 
-var path = require('path');
+var mixVersion = 0,
+    sassVersion = 0;
 
-var fs = require('fs');
+(function () {
+  var mixPackage = require('laravel-mix/package.json');
 
-var mix4 = true;
-fs.readFile(path.resolve(process.cwd(), 'node_modules/laravel-mix/package.json'), {
-  encoding: 'utf8'
-}, function (err, data) {
-  var v = JSON.parse(data)['version'];
-  mix4 = /^4\./.test(v);
-});
+  mixVersion = parseInt(mixPackage['version'].match(/^(\d+)\./)[1]);
+
+  try {
+    require.resolve('sass-loader/package.json');
+  } catch (x) {
+    throw new Error('Cannot determine sass-loader\'s version');
+  }
+
+  var sassPackage = require('sass-loader/package.json');
+
+  sassVersion = parseInt(sassPackage['version'].match(/^(\d+)\./)[1]);
+})();
+
 var ext = new (function () {
   function _class() {
     _classCallCheck(this, _class);
@@ -44,7 +56,7 @@ var ext = new (function () {
   }, {
     key: "dependencies",
     value: function dependencies() {
-      return ['sass-resources-loader'];
+      return mixVersion >= 6 ? null : ['sass-resources-loader'];
     }
   }, {
     key: "webpackConfig",
@@ -59,7 +71,7 @@ var ext = new (function () {
         }
       };
 
-      if (mix4) {
+      if (mixVersion <= 5) {
         rules.forEach(function (rule) {
           if (rule.loaders) {
             rule.use = rule.loaders;
@@ -68,19 +80,46 @@ var ext = new (function () {
 
           rule.use.push(ldr);
         });
-      } else {
-        rules.forEach(function (rule) {
-          if (rule.loaders) {
-            rule.use = rule.loaders.map(function (loader) {
-              return {
-                loader: loader
-              };
-            });
-            delete rule.loaders;
-          }
+      }
 
-          rule.use.push(ldr);
+      if (mixVersion >= 6) {
+        var injectionKey = sassVersion <= 8 ? 'prependData' : 'additionalData';
+        var prepend = this.resources.map(function (r) {
+          return "@import '".concat(r.replace(/\\/g, '/'), "';");
+        }).join('\n');
+
+        var modify = function modify(loader) {
+          if (typeof loader == 'string') {
+            var obj = {
+              loader: loader,
+              options: {}
+            };
+            obj.options[injectionKey] = prepend;
+            return obj;
+          } else if (_typeof(loader) === 'object') {
+            var _obj = loader.options || {};
+
+            _obj[injectionKey] = prepend;
+            loader.options = _obj;
+            return loader;
+          }
+        };
+
+        var injectRule = function injectRule(use) {
+          var i = use.findIndex(function (l) {
+            return l == 'sass-loader' || l.loader == 'sass-loader';
+          });
+          if (i !== -1) use[i] = modify(use[i]);
+        };
+
+        rules.forEach(function (rule) {
+          if (rule.use) injectRule(rule.use instanceof Array ? rule.use : [rule.use]);else if (rule.oneOf) rule.oneOf.forEach(function (oneOf) {
+            return injectRule(oneOf.use instanceof Array ? oneOf.use : [oneOf.use]);
+          });
         });
+      }
+
+      if (mixVersion == 5) {
         var rule = config.module.rules.find(function (rule) {
           return rule.test instanceof RegExp && rule.test.test('asdf.vue');
         });

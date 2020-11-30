@@ -32,11 +32,18 @@
 	"homepage": "https://github.com/lmeysel/laravel-mix-sass-resources-loader#readme",
 	"devDependencies": {
 		"@babel/preset-env": "^7.3.1",
-		"laravel-mix": "^4.0.14",
-		"resolve-url-loader": "^2.3.1",
-		"sass": "^1.16.1",
-		"sass-loader": "^7.1.0",
-		"sass-resources-loader": "^2.0.0",
-		"vue-template-compiler": "^2.5.22"
+		"laravel-mix": "^6.0.0-beta.14",
+		"laravel-mix2": "npm:laravel-mix@^2.1.14",
+		"laravel-mix4": "npm:laravel-mix@^4.1.4",
+		"laravel-mix6": "npm:laravel-mix@^6.0.0-beta.14",
+		"postcss": "^8.1.10",
+		"resolve-url-loader": "^2.3.2",
+		"sass": "^1.29.0",
+		"sass-loader": "^9.0.3",
+		"vue": "^2.6.12",
+		"vue-loader": "^15.9.5",
+		"vue-template-compiler": "^2.6.12",
+		"webpack": "^5.9.0",
+		"webpack-cli": "^4.2.0"
 	}
 }
