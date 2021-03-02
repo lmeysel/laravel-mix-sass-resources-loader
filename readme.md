@@ -1,3 +1,12 @@
+# Caution
+
+This extension is deprecated as laravel-mix now allows to include custom scss-files as resources. See
+* `mix.options({ globalVueStyles: '...' })` in [laravel-mix@5](https://laravel-mix.com/docs/5.0/options) or
+* `mix.vue({ globalStyles: '...'})` in [laravel-mix@6](https://laravel-mix.com/docs/6.0/upgrade#vue-configuration)
+
+---
+
+
 This extension utilizes the [sass-resources-loader](https://github.com/shakacode/sass-resources-loader) and plugs it into [laravel-mix](https://github.com/JeffreyWay/laravel-mix).
 
 # Usage
