@@ -1,6 +1,6 @@
 {
 	"name": "laravel-mix-sass-resources-loader",
-	"version": "1.0.4",
+	"version": "1.0.5",
 	"description": "Plugin for larvel-mix to allow injecting sass-resource files via the sass-resources-loader",
 	"main": "dist/plugin.js",
 	"scripts": {
